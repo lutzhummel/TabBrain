@@ -6,6 +6,9 @@
 var logging = true;
 var tabStats = new TabStats();
 var lastSelectedTab = null;
+var tabCount = 0;
+
+chrome.browserAction.setBadgeBackgroundColor({color:[0,135,135,135]});
 
 chrome.tabs.getSelected(null, function(tab) {
    lastSelectedTab = tab;
@@ -30,6 +33,12 @@ function getDomainForURL(url) {
  */
 
 chrome.tabs.onCreated.addListener(function(tab) {
+	tabCount++;
+	if(tabCount > 0){
+		chrome.browserAction.setBadgeText({text:""+tabCount});
+	}else{
+		chrome.browserAction.setBadgeText({text:""});
+	}
    log("tab created: " + tab.id + ":" + tab.url);
    if (isTabStored(tab.url)) {
       tabStats.addTab(tab);
@@ -68,6 +77,12 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 });
 
 chrome.tabs.onRemoved.addListener(function(tabId) {
+	tabCount--;
+	if(tabCount > 0){
+		chrome.browserAction.setBadgeText({text:""+tabCount});
+	}else{
+		chrome.browserAction.setBadgeText({text:""});
+	}
    log("tab removed: " + tabId);
    tabStats.removeTab(tabId)
 });

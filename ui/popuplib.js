@@ -36,7 +36,11 @@ function createList(data,id) {
 
          if(tab.thumbnail == undefined){
             tab.thumbnail = "icon.png";
-            thumbSize = "100px";
+            thumbSize = "60px";
+         }
+		 
+		 if(tab.thumbnail == tab.favIconUrl){
+            thumbSize = "60px";
          }
 
          var item = "<li class='listitem' id='" + tab.tabID + "'><a class='screenshot' rel='"+tab.thumbnail+"' rev='"+thumbSize+"'><div class='"+id+"'><img src='" + tab.favIconUrl + "' alt='favicon' width='20px'/><input class='checkitem' type='checkbox' checked='true' name='" + tab.url + "' value='" + tab.tabID + "'>" + tab.title + "</div></a></li>";
